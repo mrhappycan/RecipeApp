@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import {
     Text,
     View,
@@ -6,22 +6,75 @@ import {
     TouchableOpacity,
     Button,
     FlatList,
-    TextInput
+    TextInput,
+    Image
 } from 'react-native'
 import Optionicon from '../assets/option'
 import Filtericon from '../assets/filter'
 import Plusicon from '../assets/plus'
 import Searcicon from '../assets/search'
+import HeartClose from '../assets/heartclose'
+import HeartOpen from '../assets/hartopen'
+import Clock from '../assets/clock'
+
+const getImageResources = (imageName) => {
+    const staticImages = {
+        'chicken_burger': require('../assets/photos/chicken_burger.png'),
+        'chocolate_cake': require('../assets/photos/chocolate_cake.png'),
+        'cup_cake': require('../assets/photos/cup_cake.png'),
+        'toast_with_berries': require('../assets/photos/toast_with_berries.png')
+    }
+
+    if(staticImages[imageName]){
+        return staticImages[imageName]
+    }
+
+    return {uri: imageName}
+}
 
 const HomeScreen = props => {
+    const [recipes, setRecipes] = useState([
+        {
+            image: 'toast_with_berries',
+            name: 'Toast with Berries',
+            like: true,
+            time: '10:00',
+            puan: '4.5/5',
+            category: 'breakfast'
+        },
+
+        {
+            image: 'chicken_burger',
+            name: 'Chicken Burger',
+            like: false,
+            time: '20:00',
+            puan: '4.3/5',
+            category: 'dinner'
+        },
+
+        {
+            image: 'chocolate_cake',
+            name: 'chocolate cake',
+            like: false,
+            time: '10:00',
+            puan: '4.5/5',
+            category: 'desert'
+        },
+
+        {
+            image: 'cup_cake',
+            name: 'cup cake',
+            like: true,
+            time: '05:00',
+            puan: '4.5/5',
+            category: 'desert'
+        }
+    ])
+
     return (
         <View style={Styles.container}>
             <View style={Styles.topview}>
-                <TouchableOpacity
-                    onPress={() => {
-                        console.log(props.route.params)
-                    }}
-                >
+                <TouchableOpacity>
                     <Plusicon />
                 </TouchableOpacity>
                 <TouchableOpacity>
@@ -64,13 +117,58 @@ const HomeScreen = props => {
                     Today's fresh recipe
                 </Text>
                 <TouchableOpacity
-                onPress={() => {
-                    props.navigation.navigate('FreshRecipe')
-                }}>
+                    onPress={() => {
+                        props.navigation.navigate('FreshRecipe')
+                    }}>
                     <Text style={Styles.btn}>
                         See all
                     </Text>
                 </TouchableOpacity>
+            </View>
+            <View>
+                <FlatList
+                    data={recipes}
+                    renderItem={element => {
+                        return (
+                            <View style={Styles.recipes}>
+                                <View style = {{flexDirection: 'row'}}>
+                                <TouchableOpacity
+                                    onPress={() => {
+
+                                    }}
+                                    style={{ padding: 8}}
+                                >
+                                    {
+                                        element.item.like == false ?
+                                            <HeartClose /> :
+                                            <HeartOpen />
+                                    }
+                                </TouchableOpacity>
+                                <Image
+                                    style = {{width: 96, height: 96}}
+                                    source={getImageResources(element.item.image)}
+                                />
+                                </View>
+                                <Text style = {{color: 'aqua'}}>
+                                    {element.item.category}
+                                </Text>
+                                <Text style = {{color: 'white'}}>
+                                    {element.item.name}
+                                </Text>
+                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                    <Clock />
+                                    <Text style={{ margin: 5, color: 'white' }}>
+                                        {element.item.time}
+                                    </Text>
+                                </View>
+                                <Text style = {{color: 'white'}}>
+                                    {element.item.puan}
+                                </Text>
+                            </View>
+                        )
+                    }}
+                    horizontal
+                />
             </View>
             <View>
                 <View style={Styles.freshrecipe}>
@@ -87,7 +185,38 @@ const HomeScreen = props => {
                         </Text>
                     </TouchableOpacity>
                 </View>
-                <FlatList/>
+                <FlatList
+                    data={recipes}
+                    renderItem={element => {
+                        return (
+                            <View style={Styles.recipes2}>
+                                <View style = {{margin: 8}}>
+                                    <Text style = {{color: 'white'}}>
+                                        {element.item.name}
+                                    </Text>
+                                    <Text style = {{color: 'white'}}>
+                                        {element.item.puan}
+                                    </Text>
+                                </View>
+                                <View style = {{alignItems: 'flex-end', padding: 8, justifyContent: 'space-between', height: '100%'}}>
+                                    <TouchableOpacity>
+                                        {
+                                            element.item.like == false ?
+                                                <HeartClose /> :
+                                                <HeartOpen />
+                                        }
+                                    </TouchableOpacity>
+                                    <View style = {{alignItems: 'center', flexDirection: 'row'}}>
+                                        <Clock/>
+                                        <Text style = {{color: 'white', marginLeft: 8}}>
+                                            {element.item.time}
+                                        </Text>
+                                    </View>
+                                </View>
+                            </View>
+                        )
+                    }}
+                />
             </View>
         </View>
     )
@@ -157,10 +286,30 @@ const Styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         borderRadius: 5,
-        justifyContent: 'space-between',
+        justifyContent: 'center',
     },
 
     freshrecipe: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+
+    recipes: {
+        height: 216,
+        width: 168,
+        backgroundColor: 'grey',
+        borderRadius: 20,
+        marginRight: 8,
+        padding: 8
+    },
+
+    recipes2: {
+        height: 64,
+        width: '100%',
+        backgroundColor: 'grey',
+        borderRadius: 10,
+        marginBottom: 8,
+        alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between'
     },

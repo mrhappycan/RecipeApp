@@ -18,6 +18,7 @@ import Eye from '../assets/eye'
 import EyeOff from '../assets/eyeoff'
 
 const MMKV = new MMKVLoader().initialize()
+
 const RegisterScreen = props => {
     const [users, setUsers] = useMMKVStorage('users', MMKV, [])
     const [username, setUsername] = useState('')
