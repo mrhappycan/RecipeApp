@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "685443758860",
+    "project_id": "recipeapprn-98343",
+    "storage_bucket": "recipeapprn-98343.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685443758860:android:7244bb67d291865486e729",
+        "android_client_info": {
+          "package_name": "com.mustafacanmutlu.recipeapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5G0Jw9lMEcoIFBaCmS4DdAKH6V2HL_uo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

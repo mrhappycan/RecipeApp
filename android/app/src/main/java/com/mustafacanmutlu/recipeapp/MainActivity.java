@@ -1,4 +1,4 @@
-package com.recipeapp;
+package com.mustafacanmutlu.recipeapp;
 
 import android.os.Bundle;
 
