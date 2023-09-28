@@ -5,7 +5,7 @@ import RegisterScreen from './src/screens/registerscreen'
 import LoginScreen from './src/screens/loginScreen'
 import HomeScreen from './src/screens/homeScreen'
 import FreshRecipeScreen from './src/screens/freshrecipe'
-import RecommendedScreen from './src/screens/recomended'
+import FavouriteScreen from './src/screens/favouritescreen'
 const Stack = createNativeStackNavigator()
 
 const App = () => {
@@ -36,10 +36,10 @@ const App = () => {
           component={FreshRecipeScreen}
           options={{ headerShown: false }}
         />
-
+        
         <Stack.Screen
-          name='Recommended'
-          component={RecommendedScreen}
+          name='Favourite'
+          component={FavouriteScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

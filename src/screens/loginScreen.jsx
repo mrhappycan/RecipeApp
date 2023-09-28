@@ -9,6 +9,7 @@ import {
     TextInput
 } from 'react-native'
 import { MMKVLoader, useMMKVStorage } from "react-native-mmkv-storage"
+import { auth } from '../uility/firebase'
 import Fullnameicon from '../assets/fullname'
 import Passwordicon from '../assets/password'
 import Eye from '../assets/eye'
@@ -18,19 +19,17 @@ const MMKV = new MMKVLoader().initialize()
 
 const LoginScreen = props => {
     const [users, setUsers] = useMMKVStorage('users', MMKV, [])
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [passwordVisible, setPasswordVisible] = useState(true)
 
     const Login = () => {
-        console.log(users)
-        users.forEach(element => {
-            if (username === element.username && password === element.password) {
-                props.navigation.navigate('Home', username)
-            }else{
-                console.log('yanlış şifre ya da kullanıcı ismi')
+        if(email.length > 0 && password.length > 0){
+            auth().signInWithEmailAndPassword(email, password)
+            if(auth().currentUser){
+                props.navigation.navigate('Home')
             }
-        })
+        }
     }
 
     return (
@@ -51,10 +50,10 @@ const LoginScreen = props => {
                 <View style={Styles.txtinput}>
                     <Fullnameicon/>
                     <TextInput
-                        placeholder='username'
+                        placeholder='email'
                         style={Styles.txtinputtxt}
-                        onChangeText={setUsername}
-                        value={username}
+                        onChangeText={setEmail}
+                        value={email}
                     />
                 </View>
 
@@ -158,6 +157,7 @@ const Styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        margin: 5
     },
 
     txtinputtxt: {

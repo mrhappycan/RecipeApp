@@ -17,6 +17,9 @@ import Passwordicon from '../assets/password'
 import Eye from '../assets/eye'
 import EyeOff from '../assets/eyeoff'
 
+import { auth } from '../uility/firebase'
+import { SafeAreaView } from 'react-native-safe-area-context'
+
 const MMKV = new MMKVLoader().initialize()
 
 const RegisterScreen = props => {
@@ -27,126 +30,131 @@ const RegisterScreen = props => {
     const [passwordconfirm, setPasswordConfirm] = useState('')
     const [passwordVisible, setPasswordVisible] = useState(true)
     const [confirm, setConfirm] = useState(true)
+
+    const Register = async () => {
+        try {
+            console.log('if dışı')
+            if (passwordconfirm == password && username.length > 0 && email.length > 0 && password.length > 0) {
+                console.log('if içi')
+                let result = await auth().createUserWithEmailAndPassword(email, password)
+                if (auth().currentUser) {
+                    auth().currentUser.sendEmailVerification()
+                    props.navigation.navigate('Home')
+                }
+                console.log('result:', result)
+            }
+        } catch (error) {
+            Alert.alert(error.code)
+        }
+    }
+
     return (
-        <View style={Styles.container}>
-            <View>
-                <Text style={Styles.logo}>
-                    MİDA YEMEK
-                </Text>
-                <Text style={Styles.littleLogo}>
-                    cook in easy way
-                </Text>
-            </View>
-
-            <View style={Styles.registercontainer}>
-                <Text style={Styles.register}>
-                    Register
-                </Text>
-                <View style={Styles.txtinput}>
-                    <Fullnameicon />
-                    <TextInput
-                        placeholder='full name'
-                        style={Styles.txtinputtxt}
-                        onChangeText={setUsername}
-                        value={username}
-                    />
+        <SafeAreaView>
+            <View style={Styles.container}>
+                <View>
+                    <Text style={Styles.logo}>
+                        MİDA YEMEK
+                    </Text>
+                    <Text style={Styles.littleLogo}>
+                        cook in easy way
+                    </Text>
                 </View>
 
-                <View style={Styles.txtinput}>
-                    <Emailicon />
-                    <TextInput
-                        placeholder='email address'
-                        style={Styles.txtinputtxt}
-                        onChangeText={setEmail}
-                        value={email}
-                    />
-                </View>
-
-                <View style={Styles.txtinput}>
-                    <Passwordicon />
-                    <TextInput
-                        placeholder='password'
-                        style={Styles.txtinputtxt}
-                        secureTextEntry={passwordVisible}
-                        onChangeText={setPassword}
-                        value={password}
-                    />
-                    <TouchableOpacity
-                        onPress={() => {
-                            setPasswordVisible(!passwordVisible)
-                        }}
-                    >
-                        {
-                            passwordVisible == false ?
-                                <EyeOff /> :
-                                <Eye />
-                        }
-                    </TouchableOpacity>
-                </View>
-
-                <View style={Styles.txtinput}>
-                    <Passwordicon />
-                    <TextInput
-                        placeholder='confirm password'
-                        style={Styles.txtinputtxt}
-                        secureTextEntry={confirm}
-                        onChangeText={setPasswordConfirm}
-                        value={passwordconfirm}
-                    />
-                    <TouchableOpacity
-                        onPress={() => {
-                            setConfirm(!confirm)
-                        }}
-                    >
-                        {
-                            confirm == false ?
-                                <EyeOff /> :
-                                <Eye />
-                        }
-                    </TouchableOpacity>
-                </View>
-            </View>
-
-            <View>
-                <TouchableOpacity
-                    style={Styles.btn}
-                    onPress={() => {
-                        if (username.length > 0 && password.length > 0 && email.length > 0 && passwordconfirm.length > 0 && passwordconfirm == password) {
-                            setUsers([...users, {
-                                username: username,
-                                password: password,
-                                email: email,
-                                confirm: passwordconfirm
-                            }])
-                            props.navigation.navigate('Home', username)
-                            console.log(users)
-                            console.log('basariyla kaydolundu')
-                        } else {
-                            console.log(users)
-                            console.log('kayit olunamadı')
-                        }
-                    }}
-                >
-                    <Text style={Styles.btntxt}>
+                <View style={Styles.registercontainer}>
+                    <Text style={Styles.register}>
                         Register
                     </Text>
-                </TouchableOpacity>
-                <View style={Styles.Logincontainer}>
-                    <Text style={Styles.registertxt}>
-                        Already Registered?{' '}
-                    </Text>
+                    <View style={Styles.txtinput}>
+                        <Fullnameicon />
+                        <TextInput
+                            placeholder='full name'
+                            style={Styles.txtinputtxt}
+                            onChangeText={setUsername}
+                            value={username}
+                        />
+                    </View>
+
+                    <View style={Styles.txtinput}>
+                        <Emailicon />
+                        <TextInput
+                            placeholder='email address'
+                            style={Styles.txtinputtxt}
+                            onChangeText={setEmail}
+                            value={email}
+                        />
+                    </View>
+
+                    <View style={Styles.txtinput}>
+                        <Passwordicon />
+                        <TextInput
+                            placeholder='password'
+                            style={Styles.txtinputtxt}
+                            secureTextEntry={passwordVisible}
+                            onChangeText={setPassword}
+                            value={password}
+                        />
+                        <TouchableOpacity
+                            onPress={() => {
+                                setPasswordVisible(!passwordVisible)
+                            }}
+                        >
+                            {
+                                passwordVisible == false ?
+                                    <EyeOff /> :
+                                    <Eye />
+                            }
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={Styles.txtinput}>
+                        <Passwordicon />
+                        <TextInput
+                            placeholder='confirm password'
+                            style={Styles.txtinputtxt}
+                            secureTextEntry={confirm}
+                            onChangeText={setPasswordConfirm}
+                            value={passwordconfirm}
+                        />
+                        <TouchableOpacity
+                            onPress={() => {
+                                setConfirm(!confirm)
+                            }}
+                        >
+                            {
+                                confirm == false ?
+                                    <EyeOff /> :
+                                    <Eye />
+                            }
+                        </TouchableOpacity>
+                    </View>
+                </View>
+
+                <View>
                     <TouchableOpacity
-                        onPress={() => {
-                            props.navigation.navigate('Login')
-                        }}
+                        style={Styles.btn}
+                        onPress={Register}
                     >
-                        <Text style={Styles.logintxt}>
-                            Login Now
+                        <Text style={Styles.btntxt}>
+                            Register
                         </Text>
                     </TouchableOpacity>
+                    <View style={Styles.Logincontainer}>
+                        <Text style={Styles.registertxt}>
+                            Already Registered?{' '}
+                        </Text>
+                        <TouchableOpacity
+                            onPress={() => {
+                                props.navigation.navigate('Login')
+                            }}
+                        >
+                            <Text style={Styles.logintxt}>
+                                Login Now
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
     )
 }
 
@@ -191,6 +199,7 @@ const Styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        margin: 5
     },
 
     txtinputtxt: {
