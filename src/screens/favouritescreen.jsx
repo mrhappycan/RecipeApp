@@ -45,7 +45,11 @@ const FavouriteScreen = props => {
                     <Text style = {Styles.txt}>
                         Favourite
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.navigation.goBack()
+                        }}
+                    >
                         <GoBack/>
                     </TouchableOpacity>
                 </View>

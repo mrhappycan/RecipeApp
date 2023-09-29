@@ -4,8 +4,9 @@ import { NavigationContainer } from '@react-navigation/native'
 import RegisterScreen from './src/screens/registerscreen'
 import LoginScreen from './src/screens/loginScreen'
 import HomeScreen from './src/screens/homeScreen'
-import FreshRecipeScreen from './src/screens/freshrecipe'
 import FavouriteScreen from './src/screens/favouritescreen'
+import ProfileScreen from './src/screens/profile'
+import SideMenuScreen from './src/screens/sidemenuscreen'
 const Stack = createNativeStackNavigator()
 
 const App = () => {
@@ -32,14 +33,20 @@ const App = () => {
         />
 
         <Stack.Screen
-          name='FreshRecipe'
-          component={FreshRecipeScreen}
-          options={{ headerShown: false }}
-        />
-        
-        <Stack.Screen
           name='Favourite'
           component={FavouriteScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name='SideMenu'
+          component={SideMenuScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name='Profile'
+          component={ProfileScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>

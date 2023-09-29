@@ -87,7 +87,11 @@ const HomeScreen = props => {
                     <TouchableOpacity>
                         <Plusicon />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => {
+                            props.navigation.navigate('SideMenu')
+                        }}
+                    >
                         <Optionicon />
                     </TouchableOpacity>
                 </View>
